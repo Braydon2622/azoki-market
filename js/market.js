@@ -246,7 +246,7 @@
     $$('a[data-sibling]').forEach((a) => {
       const path = a.dataset.path || 'index.html';
       if (local) a.href = '../' + a.dataset.sibling + '/' + path;
-      else if (/\.github\.io$/.test(location.hostname)) a.href = '/azoki-' + a.dataset.sibling + '/' + (path === 'index.html' ? '' : path);
+      else if (/^\/azoki-(studios|market)\//.test(location.pathname)) a.href = '/azoki-' + a.dataset.sibling + '/' + (path === 'index.html' ? '' : path);
     });
   }
   function nav() {
