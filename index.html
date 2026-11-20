@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Azoki Market | Real objects from made-up worlds</title>
+<meta name="description" content="Azoki Market: prints, tapestries, glow boxes and embroidery. The physical half of Azoki.">
+<meta property="og:title" content="Azoki Market">
+<meta property="og:description" content="Real objects from made-up worlds. Prints, tapestries, glow boxes and embroidery.">
+<meta property="og:image" content="assets/art-whale.jpg">
+<meta name="theme-color" content="#f3efe6">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/market.css">
+</head>
+<body>
+<a class="skip" href="#shop">Skip to the shop</a>
+
+<div class="bar" aria-hidden="true">
+  <div class="bar-track">
+    <span>Prints</span><i>●</i><span>Tapestries</span><i>●</i><span>Glow boxes</span><i>●</i><span>Embroidery</span><i>●</i><span>Objects from the worlds of Azoki Studios</span><i>●</i><span>Small batches</span><i>●</i>
+    <span>Prints</span><i>●</i><span>Tapestries</span><i>●</i><span>Glow boxes</span><i>●</i><span>Embroidery</span><i>●</i><span>Objects from the worlds of Azoki Studios</span><i>●</i><span>Small batches</span><i>●</i>
+  </div>
+</div>
+
+<header class="nav" id="nav">
+  <a class="logo" href="index.html" aria-label="Azoki Market, home">AZ<span class="o" aria-hidden="true"></span>KI<em>market</em></a>
+  <nav class="nav-links" aria-label="Sections">
+    <a href="#shop">Shop</a>
+    <a href="#glow">Glow boxes</a>
+    <a href="#stitch">Embroidery</a>
+    <a href="#studio">The studio</a>
+  </nav>
+  <div class="switch" role="group" aria-label="Azoki sites">
+    <a data-sibling="studios" href="https://azokistudios.com">Studios</a>
+    <span class="on" aria-current="page">Market</span>
+  </div>
+  <button class="cartbtn" data-open-cart>Cart (<span data-cart-count>0</span>)</button>
+</header>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-copy">
+    <p class="label">[ azoki market ] <span>objects no. 001 to 011</span></p>
+    <h1>Real objects from made-up <em>worlds.</em></h1>
+    <p class="hero-sub">Prints, tapestries, glow boxes and stitched crewnecks. Some start life as live wallpapers at Azoki Studios. All of them end up somewhere you can touch.</p>
+    <div class="hero-cta">
+      <a class="btn ink" href="#shop">Shop everything</a>
+      <a class="btn line" href="#glow">Turn the lights off <span aria-hidden="true">-&gt;</span></a>
+    </div>
+  </div>
+  <div class="stack" aria-hidden="true">
+    <div class="sun"></div>
+    <div class="s s1" data-mock="shark-tapestry"></div>
+    <div class="s s2" data-mock="whale-print"></div>
+    <div class="s s3" data-mock="bloom-glow"></div>
+    <p class="tag t1">No. 006<br>The Shark</p>
+    <p class="tag t2">No. 001<br>The Whale</p>
+  </div>
+</section>
+
+<!-- ============ CATEGORIES ============ -->
+<section class="index">
+  <p class="label reveal">[ the shelves ]</p>
+  <ul class="cats reveal" id="cats"></ul>
+</section>
+
+<!-- ============ GLOW ============ -->
+<section class="glowsec" id="glow">
+  <div class="glow-copy">
+    <p class="label">[ no. 009 ] glow box</p>
+    <h2 id="glowLine">Go on. Turn the lights off.</h2>
+    <p>A glow box is a picture with a light behind it. In daylight it sits there quietly. In the dark, the whale looks the way it does on a screen at midnight.</p>
+    <button class="lightsw big" id="lightSwitch" role="switch" aria-checked="true"><span class="knob" aria-hidden="true"></span>room lights: <b class="sw-state">on</b></button>
+    <div class="glow-buy">
+      <a class="btn paper" href="product.html?id=whale-glow">See the box</a>
+      <button class="btn line inv" data-add="whale-glow">[ + add to cart ]</button>
+    </div>
+  </div>
+  <div class="glow-stage">
+    <div class="g1" data-mock="whale-glow" data-off="1"></div>
+    <div class="g2" data-mock="bloom-glow" data-off="1"></div>
+    <div class="shelf" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- ============ SHOP ============ -->
+<section class="shop" id="shop">
+  <div class="shop-head">
+    <div>
+      <p class="label reveal">[ shop ]</p>
+      <h2 class="reveal">Everything, <em>all at once.</em></h2>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Filter by kind"></div>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<!-- ============ STITCH ============ -->
+<section class="stitch" id="stitch">
+  <div class="stitch-stage reveal" id="stitchStage"></div>
+  <div class="stitch-copy reveal">
+    <p class="label">[ no. 011 ] embroidery</p>
+    <h2>Wear <em id="stitchCity">Atlanta</em> on your chest.</h2>
+    <p>A skyline stitched in one thread colour and framed like a stamp. Pick the city, pick the cloth.</p>
+    <p class="mini">City</p>
+    <div class="chips" id="stitchCities" role="group" aria-label="City"></div>
+    <p class="mini">Colour</p>
+    <div class="swatches" id="stitchColours" role="group" aria-label="Colour"></div>
+    <div class="stitch-buy">
+      <button class="btn red" id="stitchAdd" data-add="city-crew">Add to cart · $58</button>
+      <a class="btn line" href="product.html?id=city-crew">Details</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STUDIO ============ -->
+<section class="studio" id="studio">
+  <div class="studio-pic reveal"><img src="assets/art-school.jpg" alt="A shark drawn in text characters over a reef, from Code Sea" loading="lazy"></div>
+  <div class="studio-copy reveal">
+    <p class="label">[ azoki studios ]</p>
+    <h2>Before it was a print, it was <em>alive.</em></h2>
+    <p>The whale, the village and the reef all come from Azoki Studios, where they are live wallpapers that swim, stroll and grow behind your desktop icons. The Market is where they hold still.</p>
+    <a class="btn glowbtn" data-sibling="studios" href="https://azokistudios.com">Visit Azoki Studios <span aria-hidden="true">-&gt;</span></a>
+  </div>
+</section>
+
+<!-- ============ NEWS ============ -->
+<section class="news">
+  <h2 class="reveal">Hear about the <em>next drop.</em></h2>
+  <form class="signup reveal" name="market-news" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+    <input type="hidden" name="form-name" value="market-news">
+    <p hidden><label>Leave this empty <input name="bot-field"></label></p>
+    <label for="email">Email</label>
+    <div class="field">
+      <input id="email" name="email" type="email" required placeholder="you@example.com" autocomplete="email">
+      <button class="btn ink" type="submit">Sign me up</button>
+    </div>
+    <p class="form-msg" role="status"></p>
+  </form>
+</section>
+</main>
+
+<footer class="foot">
+  <p class="foot-mark" aria-hidden="true">AZ<span></span>KI</p>
+  <div class="foot-row">
+    <p>&copy; 2026 Azoki Market. Made by Braydon.</p>
+    <nav aria-label="Footer">
+      <a href="#shop">Shop</a>
+      <a data-sibling="studios" href="https://azokistudios.com">Azoki Studios</a>
+      <a href="#top" onclick="scrollTo({top:0,behavior:'smooth'});return false">Back to top</a>
+    </nav>
+  </div>
+</footer>
+
+<dialog class="drawer" id="cart" aria-label="Your cart">
+  <div class="drawer-in">
+    <header><h2>Cart (<span data-cart-count>0</span>)</h2><button data-close aria-label="Close cart">[ close ]</button></header>
+    <div class="drawer-body" id="cartBody"></div>
+    <footer id="cartFoot">
+      <div class="sum"><span>Subtotal</span><b id="cartTotal">$0</b></div>
+      <button class="btn red grow" id="checkout">Checkout</button>
+      <p class="note" id="cartNote" role="status"></p>
+    </footer>
+  </div>
+</dialog>
+
+<script src="js/products.js"></script>
+<script src="js/market.js"></script>
+</body>
+</html>
