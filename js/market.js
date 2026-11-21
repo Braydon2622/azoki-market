@@ -142,7 +142,7 @@
   function card(p) {
     const multi = p.step && p.options.Size && p.options.Size.length > 1;
     return '<article class="card reveal" data-cat="' + p.cat + '">' +
-      '<a class="card-pic" href="product.html?id=' + p.id + '" aria-label="' + esc(p.name) + '">' + mock(p) + '</a>' +
+      '<a class="card-pic" style="view-transition-name:pic-' + p.id + '" href="product.html?id=' + p.id + '" aria-label="' + esc(p.name) + '">' + mock(p) + '</a>' +
       '<div class="card-top"><span>No. ' + p.no + '</span><span>' + (p.from ? 'from ' + esc(p.from) : 'Azoki original') + '</span></div>' +
       '<h3><a href="product.html?id=' + p.id + '">' + esc(p.name) + '</a></h3>' +
       '<div class="card-bot"><span>' + KIND[p.type] + '</span><span class="price">' + (OPEN ? (multi ? 'from ' : '') + money(p.price) : 'opening soon') + '</span></div>' +
@@ -218,7 +218,7 @@
       '</div></fieldset>').join('');
     const others = M.products.filter((x) => x.id !== p.id && (x.cat === p.cat || x.fromId === p.fromId)).slice(0, 4);
     root.innerHTML =
-      '<div class="pd"><div class="pd-stage"><div class="pd-pic" id="pdPic"></div>' +
+      '<div class="pd"><div class="pd-stage"><div class="pd-pic" id="pdPic" style="view-transition-name:pic-' + p.id + '"></div>' +
       (p.type === 'glow' ? '<button class="lightsw" id="pdLight" role="switch" aria-checked="true">room lights: <b class="sw-state">on</b></button>' : '') +
       (p.art ? '<div class="pd-thumbs"><button aria-pressed="true" data-v="mock">' + (p.type === 'tapestry' ? 'Hung' : p.type === 'glow' ? 'The box' : 'Framed') + '</button><button aria-pressed="false" data-v="art">The artwork</button></div>' : '') +
       '</div><div class="pd-info">' +

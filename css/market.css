@@ -307,3 +307,20 @@ details a { color: var(--red); }
 .is-soon .pd-price span { color: var(--red); }
 .pd-soon { font-family: var(--mono); font-size: 12.5px; line-height: 1.5; color: var(--mute); margin-top: 12px; }
 .want { font-family: var(--mono); font-size: 12px; color: var(--mute); margin-top: 10px; }
+
+/* ---------- showpieces ---------- */
+/* pages cross-fade, and a product picture travels from its card to its own page */
+@view-transition { navigation: auto; }
+.nav { view-transition-name: nav; }
+::view-transition-group(*) { animation-duration: .5s; animation-timing-function: cubic-bezier(.2, .7, .2, 1); }
+
+/* the light switch darkens the whole shop, not just its own shelf: everything dims except the glow boxes */
+body:has(#glow.dark) { --bg: #0c0a08; --fg: #f3efe6; --line: rgba(243, 239, 230, .2); --mute: rgba(243, 239, 230, .62); }
+.mk, .stack .sun { transition: filter .9s, background-color .9s; }
+body:has(#glow.dark) .mk:not(.glow), body:has(#glow.dark) .stack .sun { filter: brightness(.3) saturate(.7); }
+body:has(#glow.dark) .btn.ink { background: var(--paper); color: var(--ink); }
+body:has(#glow.dark) .grid .mk.glow, body:has(#glow.dark) .stack .mk.glow { background-color: #100d0a; }
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}
