@@ -210,7 +210,7 @@ section { padding: clamp(70px, 10vw, 150px) var(--pad); }
 .cart-empty { padding: 60px 0; text-align: center; }
 .cart-empty .big { font-size: 34px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
 .cart-empty p + p { color: rgba(21, 19, 15, .62); margin: 10px 0 26px; }
-.line { display: grid; grid-template-columns: 92px 1fr; gap: 16px; padding: 18px 0; border-bottom: 1px solid rgba(21, 19, 15, .16); }
+.line:not(.btn) { display: grid; grid-template-columns: 92px 1fr; gap: 16px; padding: 18px 0; border-bottom: 1px solid rgba(21, 19, 15, .16); }
 .line-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .line-info a { text-decoration: none; font-size: 19px; letter-spacing: -.01em; }
 .line-info > span { font-family: var(--mono); font-size: 11.5px; color: rgba(21, 19, 15, .62); }
@@ -286,6 +286,8 @@ details a { color: var(--red); }
   .card h3 { font-size: 19px; }
   .card-top span:last-child { display: none; }
   .stack .tag { display: none; }
+  .foot-row nav { gap: 4px 22px; }
+  .foot-row a { display: inline-block; padding: 10px 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
