@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>This shelf is empty | Azoki Market</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f3efe6">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* This page is shown for any address that does not exist, at any depth, so everything it needs is in this one file. */
+  * { box-sizing: border-box; margin: 0; }
+  body { min-height: 100svh; display: grid; place-items: center; background: #f3efe6; color: #15130f; font-family: "JetBrains Mono", ui-monospace, Consolas, monospace; padding: 24px; }
+  main { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(24px, 6vw, 70px); align-items: center; max-width: 900px; }
+  .frame { width: clamp(120px, 24vw, 230px); aspect-ratio: 4 / 5; border: 10px solid #15130f; background: #e6dfd0; box-shadow: 10px 12px 0 rgba(21, 19, 15, .14); display: grid; place-items: center; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #8a8375; transform: rotate(-2deg); }
+  .no { font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; color: #e8442a; }
+  h1 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 800; font-size: clamp(42px, 8vw, 96px); line-height: .92; letter-spacing: -.04em; margin: 14px 0 20px; }
+  h1 em { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; letter-spacing: -.01em; }
+  p.sub { color: #5d574c; font-size: 15px; line-height: 1.6; max-width: 44ch; }
+  .go { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  a { display: inline-block; padding: 14px 20px; border-radius: 3px; font-size: 12.5px; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; border: 1px solid #15130f; color: #15130f; }
+  a.ink { background: #15130f; color: #f3efe6; }
+  a:hover { border-color: #e8442a; }
+  a:focus-visible { outline: 2px solid #e8442a; outline-offset: 3px; }
+  @media (max-width: 560px) { main { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <div class="frame" aria-hidden="true">nothing here</div>
+  <div>
+    <p class="no">404 / page not found</p>
+    <h1>This shelf is <em>empty.</em></h1>
+    <p class="sub">The page you were after does not exist, or it has been moved. Everything that does exist is one click away.</p>
+    <div class="go">
+      <a class="ink" href="/">Back to the shop</a>
+      <a href="https://azokistudios.com">Azoki Studios</a>
+    </div>
+  </div>
+</main>
+</body>
+</html>

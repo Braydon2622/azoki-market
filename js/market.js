@@ -213,7 +213,7 @@
       '<div class="pd-buy"><div class="qty" role="group" aria-label="Quantity"><button id="qm" aria-label="One fewer">-</button><output id="qv">1</output><button id="qp" aria-label="One more">+</button></div>' +
       '<button class="btn red grow" id="pdAdd">Add to cart <span id="pdAddPrice"></span></button></div>' +
       '<details open><summary>Details</summary><ul>' + p.details.map((d) => '<li>' + esc(d) + '</li>').join('') + '</ul></details>' +
-      (p.from ? '<details><summary>Where it comes from</summary><p>This picture is a moment from <b>' + esc(p.from) + '</b>, a live wallpaper by Azoki Studios. On a desktop it never stops moving. <a data-sibling="studios" data-path="work.html?id=' + p.fromId + '" href="' + M.studios + '/work.html?id=' + p.fromId + '">See it alive -&gt;</a></p></details>' : '') +
+      (p.from ? '<details><summary>Where it comes from</summary><p>This picture is a moment from <b>' + esc(p.from) + '</b>, a live wallpaper by Azoki Studios. On a desktop it never stops moving. <a data-sibling="studios" data-path="' + p.fromId + '/" href="' + M.studios + '/' + p.fromId + '/">See it alive -&gt;</a></p></details>' : '') +
       '</div></div>' +
       (others.length ? '<section class="more"><p class="label">[ goes well with ]</p><div class="grid">' + others.map(card).join('') + '</div></section>' : '') +
       '<div class="buybar"><div><b>' + esc(p.name) + '</b><span id="bbPrice"></span></div><button class="btn red" id="bbAdd">Add to cart</button></div>';
