@@ -55,8 +55,9 @@
     <p class="label">[ azoki market ] <span>objects no. 001 to 011</span></p>
     <h1>Real objects from made-up <em>worlds.</em></h1>
     <p class="hero-sub">Prints, tapestries, glow boxes and stitched crewnecks. Some start life as live wallpapers at Azoki Studios. All of them end up somewhere you can touch.</p>
+    <p class="soon-note" hidden><i aria-hidden="true"></i>Opening soon. Nothing is for sale yet: shortlist what you like and you will hear the day the doors open.</p>
     <div class="hero-cta">
-      <a class="btn ink" href="#shop">Shop everything</a>
+      <a class="btn ink" href="#shop">See everything</a>
       <a class="btn line" href="#glow">Turn the lights off <span aria-hidden="true">-&gt;</span></a>
     </div>
   </div>
@@ -137,16 +138,16 @@
 </section>
 
 <!-- ============ NEWS ============ -->
-<section class="news">
+<section class="news" id="news">
   <h2 class="reveal">Hear about the <em>next drop.</em></h2>
-  <form class="signup reveal" name="market-news" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-    <input type="hidden" name="form-name" value="market-news">
-    <p hidden><label>Leave this empty <input name="bot-field"></label></p>
+  <form class="signup reveal" name="market-news">
+    <p hidden><label>Leave this empty <input name="_honey" tabindex="-1" autocomplete="off"></label></p>
     <label for="email">Email</label>
     <div class="field">
       <input id="email" name="email" type="email" required placeholder="you@example.com" autocomplete="email">
       <button class="btn ink" type="submit">Sign me up</button>
     </div>
+    <p class="want" id="wantNote" hidden></p>
     <p class="form-msg" role="status"></p>
   </form>
 </section>
@@ -159,6 +160,7 @@
     <nav aria-label="Footer">
       <a href="#shop">Shop</a>
       <a data-sibling="studios" href="https://azokistudios.com">Azoki Studios</a>
+      <a href="mailto:hello@azokistudios.com">hello@azokistudios.com</a>
       <a href="#top" onclick="scrollTo({top:0,behavior:'smooth'});return false">Back to top</a>
     </nav>
   </div>

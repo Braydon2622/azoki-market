@@ -293,3 +293,15 @@ details a { color: var(--red); }
   .bar-track, .drawer[open] { animation: none; }
   .mk *, .stack .s { transition: none !important; }
 }
+
+/* ---------- opening soon (MARKET.open is false) ---------- */
+.sum[hidden], .qty[hidden] { display: none; }
+.soon-note { display: flex; gap: 12px; align-items: baseline; max-width: 54ch; margin-top: 22px; padding: 12px 14px; border: 1.5px solid var(--fg); border-radius: 3px; font-family: var(--mono); font-size: 12.5px; line-height: 1.5; }
+.soon-note[hidden] { display: none; }
+.soon-note i { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--red); transform: translateY(-1px); animation: soon-pulse 2s ease-in-out infinite; }
+@keyframes soon-pulse { 50% { opacity: .25; } }
+@media (prefers-reduced-motion: reduce) { .soon-note i { animation: none; } }
+.is-soon .card-bot .price { color: var(--red); font-weight: 500; font-size: 11px; }
+.is-soon .pd-price span { color: var(--red); }
+.pd-soon { font-family: var(--mono); font-size: 12.5px; line-height: 1.5; color: var(--mute); margin-top: 12px; }
+.want { font-family: var(--mono); font-size: 12px; color: var(--mute); margin-top: 10px; }

@@ -7,8 +7,16 @@
      on a product: when it is set, the photo is shown instead of the drawn mock-up.
    - checkoutUrl is empty, so the cart's checkout button only explains that checkout is not
      connected. Set it (or a per-product `buyUrl`) once a payment provider is chosen.
+
+   OPENING THE SHOP
+   - `open: false` means nothing is for sale yet: prices are hidden everywhere, "add to cart"
+     becomes "shortlist", and the shortlist is sent along with the email sign-up.
+     Change it to `open: true` once the prices are real and checkoutUrl is set.
+   - signupTo is where sign-ups are emailed (through formsubmit.co).
 */
 window.MARKET = {
+  open: false,
+  signupTo: 'hello@azokistudios.com',
   currency: '$',
   checkoutUrl: '',
   studios: 'https://azokistudios.com',

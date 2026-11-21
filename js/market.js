@@ -9,6 +9,9 @@
   const catOf = (p) => M.categories.find((c) => c.id === p.cat);
   const money = (n) => M.currency + (Number.isInteger(n) ? n : n.toFixed(2));
   const KIND = { print: 'Print', tapestry: 'Tapestry', glow: 'Glow box', crew: 'Crewneck' };
+  /* While MARKET.open is false nothing is for sale: prices are hidden and the cart becomes a
+     shortlist that is sent along with the email sign-up. */
+  const OPEN = M.open !== false;
 
   function defaults(p) { const o = {}; for (const k in p.options) o[k] = p.options[k][0]; return o; }
   function priceOf(p, o) {
@@ -70,29 +73,35 @@
   function add(id, opts, qty) {
     const p = byId(id); opts = Object.assign(defaults(p), opts || {});
     const s = sig(id, opts), line = cart.find((l) => sig(l.id, l.opts) === s);
-    if (line) line.qty += qty || 1; else cart.push({ id, opts, qty: qty || 1 });
+    if (line) { if (OPEN) line.qty += qty || 1; } else cart.push({ id, opts, qty: OPEN ? qty || 1 : 1 });
     save(); paintCart(); openCart();
   }
   function paintCart() {
     $$('[data-cart-count]').forEach((e) => { e.textContent = count(); });
     const body = $('#cartBody'); if (!body) return;
     if (!cart.length) {
-      body.innerHTML = '<div class="cart-empty"><p class="big">Nothing in here yet.</p><p>Your walls are still bare and it shows.</p><a class="btn ink" href="index.html#shop" data-close>Go and look</a></div>';
+      body.innerHTML = '<div class="cart-empty"><p class="big">' + (OPEN ? 'Nothing in here yet.' : 'Nothing saved yet.') + '</p><p>' +
+        (OPEN ? 'Your walls are still bare and it shows.' : 'The shop is not open yet. Shortlist what you like and you will hear when it is.') +
+        '</p><a class="btn ink" href="index.html#shop" data-close>Go and look</a></div>';
     } else {
       body.innerHTML = cart.map((l, i) => {
         const p = byId(l.id);
         return '<div class="line"><a class="line-pic" href="product.html?id=' + p.id + '">' + mock(p, l.opts) + '</a><div class="line-info">' +
           '<a href="product.html?id=' + p.id + '"><b>' + esc(p.name) + '</b></a>' +
           '<span>' + esc(Object.values(l.opts).join(' / ')) + '</span>' +
-          '<div class="line-row"><div class="qty" role="group" aria-label="Quantity"><button data-q="-1" data-i="' + i + '" aria-label="One fewer">-</button><output>' + l.qty + '</output><button data-q="1" data-i="' + i + '" aria-label="One more">+</button></div>' +
-          '<span class="line-price">' + money(priceOf(p, l.opts) * l.qty) + '</span></div>' +
+          (OPEN ? '<div class="line-row"><div class="qty" role="group" aria-label="Quantity"><button data-q="-1" data-i="' + i + '" aria-label="One fewer">-</button><output>' + l.qty + '</output><button data-q="1" data-i="' + i + '" aria-label="One more">+</button></div>' +
+          '<span class="line-price">' + money(priceOf(p, l.opts) * l.qty) + '</span></div>' : '') +
           '<button class="line-x" data-rm="' + i + '">[ remove ]</button></div></div>';
       }).join('');
     }
     $('#cartTotal').textContent = money(total());
     $('#cartFoot').hidden = !cart.length;
-    $('#cartNote').textContent = '';
+    $('#cartNote').textContent = OPEN ? '' : 'Nothing is for sale yet. Leave your email and you will hear when the shop opens.';
+    const want = $('#wantNote');
+    if (want) { want.hidden = OPEN || !cart.length; want.textContent = 'Your shortlist (' + count() + ') goes with it, so I know what to make first.'; }
   }
+  /* what gets sent with a sign-up while the shop is closed */
+  const shortlist = () => cart.map((l) => byId(l.id).name + ' (' + Object.values(l.opts).join(', ') + ')').join('; ');
   function openCart() { const d = $('#cart'); if (d && !d.open) d.showModal(); }
   function cartEvents() {
     const d = $('#cart'); if (!d) return;
@@ -104,7 +113,14 @@
       if (q) { const l = cart[+q.dataset.i]; l.qty += +q.dataset.q; if (l.qty < 1) cart.splice(+q.dataset.i, 1); save(); paintCart(); }
       if (rm) { cart.splice(+rm.dataset.rm, 1); save(); paintCart(); }
       if (t.closest('#checkout')) {
-        if (M.checkoutUrl) location.href = M.checkoutUrl;
+        if (!OPEN) {
+          d.close();
+          const news = $('#news');
+          if (!news) { location.href = 'index.html#news'; return; }
+          news.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+          const em = $('input[type=email]', news); if (em) em.focus({ preventScroll: true });
+        }
+        else if (M.checkoutUrl) location.href = M.checkoutUrl;
         else $('#cartNote').textContent = 'Checkout is not connected yet. Nothing has been charged.';
       }
     });
@@ -129,8 +145,8 @@
       '<a class="card-pic" href="product.html?id=' + p.id + '" aria-label="' + esc(p.name) + '">' + mock(p) + '</a>' +
       '<div class="card-top"><span>No. ' + p.no + '</span><span>' + (p.from ? 'from ' + esc(p.from) : 'Azoki original') + '</span></div>' +
       '<h3><a href="product.html?id=' + p.id + '">' + esc(p.name) + '</a></h3>' +
-      '<div class="card-bot"><span>' + KIND[p.type] + '</span><span class="price">' + (multi ? 'from ' : '') + money(p.price) + '</span></div>' +
-      '<button class="quick" data-add="' + p.id + '">[ + add to cart ]</button></article>';
+      '<div class="card-bot"><span>' + KIND[p.type] + '</span><span class="price">' + (OPEN ? (multi ? 'from ' : '') + money(p.price) : 'opening soon') + '</span></div>' +
+      '<button class="quick" data-add="' + p.id + '">' + (OPEN ? '[ + add to cart ]' : '[ + shortlist ]') + '</button></article>';
   }
   function grid() {
     const g = $('#grid'); if (!g) return;
@@ -210,20 +226,21 @@
       '<h1>' + esc(p.name) + '</h1>' +
       '<p class="pd-price"><span id="pdPrice"></span> <small>' + KIND[p.type] + '</small></p>' +
       '<p class="pd-blurb">' + esc(p.blurb) + '</p>' + optHtml +
-      '<div class="pd-buy"><div class="qty" role="group" aria-label="Quantity"><button id="qm" aria-label="One fewer">-</button><output id="qv">1</output><button id="qp" aria-label="One more">+</button></div>' +
-      '<button class="btn red grow" id="pdAdd">Add to cart <span id="pdAddPrice"></span></button></div>' +
-      '<details open><summary>Details</summary><ul>' + p.details.map((d) => '<li>' + esc(d) + '</li>').join('') + '</ul></details>' +
+      '<div class="pd-buy"><div class="qty" role="group" aria-label="Quantity"' + (OPEN ? '' : ' hidden') + '><button id="qm" aria-label="One fewer">-</button><output id="qv">1</output><button id="qp" aria-label="One more">+</button></div>' +
+      '<button class="btn red grow" id="pdAdd">' + (OPEN ? 'Add to cart' : 'Add to shortlist') + ' <span id="pdAddPrice"></span></button></div>' +
+      (OPEN ? '' : '<p class="pd-soon">The shop is not open yet. Shortlist this and leave your email, and you will hear the day it is.</p>') +
+      '<details open><summary>Details</summary><ul>' + p.details.concat(OPEN ? [] : ['Sizes, materials and prices are still being settled']).map((d) => '<li>' + esc(d) + '</li>').join('') + '</ul></details>' +
       (p.from ? '<details><summary>Where it comes from</summary><p>This picture is a moment from <b>' + esc(p.from) + '</b>, a live wallpaper by Azoki Studios. On a desktop it never stops moving. <a data-sibling="studios" data-path="' + p.fromId + '/" href="' + M.studios + '/' + p.fromId + '/">See it alive -&gt;</a></p></details>' : '') +
       '</div></div>' +
       (others.length ? '<section class="more"><p class="label">[ goes well with ]</p><div class="grid">' + others.map(card).join('') + '</div></section>' : '') +
-      '<div class="buybar"><div><b>' + esc(p.name) + '</b><span id="bbPrice"></span></div><button class="btn red" id="bbAdd">Add to cart</button></div>';
+      '<div class="buybar"><div><b>' + esc(p.name) + '</b><span id="bbPrice"></span></div><button class="btn red" id="bbAdd">' + (OPEN ? 'Add to cart' : 'Shortlist') + '</button></div>';
 
     let view = 'mock';
     const paint = () => {
       const pic = $('#pdPic');
       pic.innerHTML = view === 'art' ? '<div class="mk flat"><img src="' + p.art + '" alt="' + esc(p.name) + ', the artwork"></div>' : mock(p, o, { off: !off });
-      const pr = money(priceOf(p, o));
-      $('#pdPrice').textContent = pr; $('#pdAddPrice').textContent = '· ' + money(priceOf(p, o) * qty); $('#bbPrice').textContent = pr;
+      const pr = OPEN ? money(priceOf(p, o)) : 'Opening soon';
+      $('#pdPrice').textContent = pr; $('#pdAddPrice').textContent = OPEN ? '· ' + money(priceOf(p, o) * qty) : ''; $('#bbPrice').textContent = pr;
       $('#qv').textContent = qty;
       $$('[data-cur]', root).forEach((b) => { b.textContent = o[b.dataset.cur]; });
       root.classList.toggle('room-dark', off && view === 'mock');
@@ -260,19 +277,41 @@
     const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.08, rootMargin: '0px 0px -5% 0px' });
     els.forEach((e) => io.observe(e));
   }
+  /* Email sign-up. Each one is forwarded to MARKET.signupTo by formsubmit.co. */
   function signup() {
-    $$('form[data-netlify]').forEach((f) => f.addEventListener('submit', (e) => {
+    $$('form.signup').forEach((f) => f.addEventListener('submit', (e) => {
       e.preventDefault();
-      const msg = $('.form-msg', f);
+      const msg = $('.form-msg', f), btn = $('button[type=submit]', f);
+      if (f.elements._honey.value) return;
       if (local) { msg.textContent = 'Preview only: nothing was sent.'; return; }
-      if (!/netlify\.app$/.test(location.hostname) && !M.formsOnNetlify) { msg.textContent = 'Sign-ups are not switched on yet. Nothing was sent.'; return; }
-      fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(f)).toString() })
-        .then((r) => { if (!r.ok) throw 0; msg.textContent = 'Got it. You will hear about the next drop.'; f.reset(); })
-        .catch(() => { msg.textContent = 'That did not send. Please try again in a bit.'; });
+      if (!M.signupTo) { msg.textContent = 'Sign-ups are not switched on yet. Nothing was sent.'; return; }
+      const data = { email: f.elements.email.value, list: 'Azoki Market', _subject: 'Azoki Market sign-up', _template: 'table' };
+      if (!OPEN && cart.length) data.shortlist = shortlist();
+      btn.disabled = true; msg.textContent = 'Sending...';
+      fetch('https://formsubmit.co/ajax/' + M.signupTo, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
+        .then((r) => r.json())
+        .then((d) => { if (String(d.success) !== 'true') throw 0; msg.textContent = OPEN ? 'Got it. You will hear about the next drop.' : 'Got it. You will hear the day the shop opens.'; f.reset(); })
+        .catch(() => { msg.textContent = 'That did not send. Please try again in a bit, or write to ' + M.signupTo + '.'; })
+        .finally(() => { btn.disabled = false; });
     }));
   }
+  /* the words that change while the shop is closed */
+  function soon() {
+    if (OPEN) return;
+    document.body.classList.add('is-soon');
+    const label = 'Shortlist (<span data-cart-count>0</span>)';
+    $$('.cartbtn, #cart header h2').forEach((b) => { b.innerHTML = label; });
+    const d = $('#cart'); if (d) d.setAttribute('aria-label', 'Your shortlist');
+    const co = $('#checkout'); if (co) co.textContent = 'Tell me when these open';
+    $$('.sum').forEach((s) => { s.hidden = true; });
+    const sa = $('#stitchAdd'); if (sa) sa.textContent = 'Add to shortlist';
+    $$('.glow-buy [data-add]').forEach((b) => { b.textContent = '[ + shortlist ]'; });
+    const h = $('.news h2'); if (h) h.innerHTML = 'Be first when the shop <em>opens.</em>';
+    $$('.soon-note').forEach((n) => { n.hidden = false; });
+    $$('.bar-track span').forEach((s) => { if (s.textContent === 'Small batches') s.textContent = 'Opening soon'; });
+  }
 
-  pdp(); fillMocks(); cats(); grid(); lights(); stitch(); parallax(); quickAdd();
+  pdp(); fillMocks(); cats(); grid(); lights(); stitch(); parallax(); quickAdd(); soon();
   cartEvents(); paintCart(); siblings(); nav(); reveals(); signup();
   window.__market = { add, count, total, cart: () => cart, clear: () => { cart = []; save(); paintCart(); } };
 })();
