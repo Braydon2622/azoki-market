@@ -143,7 +143,7 @@
     const multi = p.step && p.options.Size && p.options.Size.length > 1;
     return '<article class="card reveal" data-cat="' + p.cat + '">' +
       '<a class="card-pic" style="view-transition-name:pic-' + p.id + '" href="product.html?id=' + p.id + '" aria-label="' + esc(p.name) + '">' + mock(p) + '</a>' +
-      '<div class="card-top"><span>No. ' + p.no + '</span><span>' + (p.from ? 'from ' + esc(p.from) : 'Azoki original') + '</span></div>' +
+      '<div class="card-top"><span>No. ' + p.no + '</span><span>' + (p.custom ? 'made by you' : p.from ? 'from ' + esc(p.from) : 'Azoki original') + '</span></div>' +
       '<h3><a href="product.html?id=' + p.id + '">' + esc(p.name) + '</a></h3>' +
       '<div class="card-bot"><span>' + KIND[p.type] + '</span><span class="price">' + (OPEN ? (multi ? 'from ' : '') + money(p.price) : 'opening soon') + '</span></div>' +
       '<button class="quick" data-add="' + p.id + '">' + (OPEN ? '[ + add to cart ]' : '[ + shortlist ]') + '</button></article>';
@@ -230,6 +230,12 @@
       '<button class="btn red grow" id="pdAdd">' + (OPEN ? 'Add to cart' : 'Add to shortlist') + ' <span id="pdAddPrice"></span></button></div>' +
       (OPEN ? '' : '<p class="pd-soon">The shop is not open yet. Shortlist this and leave your email, and you will hear the day it is.</p>') +
       '<details open><summary>Details</summary><ul>' + p.details.concat(OPEN ? [] : ['Sizes, materials and prices are still being settled']).map((d) => '<li>' + esc(d) + '</li>').join('') + '</ul></details>' +
+      (p.custom ? '<details open><summary>How it works</summary><ol class="how">' +
+        '<li>Open <a href="' + M.codedLens + '" target="_blank" rel="noopener">Coded Lens</a> and drop in a photo or a clip. It runs in your browser, so the picture stays on your device.</li>' +
+        '<li>Pick a look and tune it until you like it.</li>' +
+        '<li>Under Export, choose Print. It saves a poster-sized picture, up to 24 x 36 inches.</li>' +
+        '<li>Email that file to <a href="mailto:' + M.signupTo + '?subject=My%20own%20print">' + M.signupTo + '</a> with the size you want.</li>' +
+        '</ol><p><a class="btn ink" href="' + M.codedLens + '" target="_blank" rel="noopener">Open Coded Lens -&gt;</a></p></details>' : '') +
       (p.from ? '<details><summary>Where it comes from</summary><p>This picture is a moment from <b>' + esc(p.from) + '</b>, a live wallpaper by Azoki Studios. On a desktop it never stops moving. <a data-sibling="studios" data-path="' + p.fromId + '/" href="' + M.studios + '/' + p.fromId + '/">See it alive -&gt;</a></p></details>' : '') +
       '</div></div>' +
       (others.length ? '<section class="more"><p class="label">[ goes well with ]</p><div class="grid">' + others.map(card).join('') + '</div></section>' : '') +
@@ -305,6 +311,8 @@
     const co = $('#checkout'); if (co) co.textContent = 'Tell me when these open';
     $$('.sum').forEach((s) => { s.hidden = true; });
     const sa = $('#stitchAdd'); if (sa) sa.textContent = 'Add to shortlist';
+    $$('.custom [data-add]').forEach((b) => { b.textContent = '[ + shortlist one ]'; });
+    $$('.custom-soon').forEach((n) => { n.hidden = false; });
     $$('.glow-buy [data-add]').forEach((b) => { b.textContent = '[ + shortlist ]'; });
     const h = $('.news h2'); if (h) h.innerHTML = 'Be first when the shop <em>opens.</em>';
     $$('.soon-note').forEach((n) => { n.hidden = false; });
