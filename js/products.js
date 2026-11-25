@@ -71,49 +71,9 @@ window.MARKET = {
       details: ['Art print, ready for a standard frame', 'Frame not included']
     },
     {
-      id: 'pod-print', no: '012', name: 'The Pod', cat: 'prints', type: 'print',
-      art: 'assets/art-pod.jpg', wall: '#c5ccd6', price: 24,
-      from: 'Code Sea', fromId: 'codesea',
-      blurb: 'Dolphins crossing the night water in formation, above a reef that has not gone to sleep.',
-      options: { Size: ['11 x 14 in', '12 x 18 in', '16 x 20 in', '18 x 24 in'] }, step: 6,
-      details: ['Art print, ready for a standard frame', 'Frame not included']
-    },
-    {
-      id: 'turtle-print', no: '013', name: 'The Turtle', cat: 'prints', type: 'print',
-      art: 'assets/art-turtle.jpg', wall: '#d6cdb8', price: 24,
-      from: 'Code Sea', fromId: 'codesea',
-      blurb: 'One sea turtle, lit like a lantern, alone in a great deal of dark. The emptiest print in the shop, on purpose.',
-      options: { Size: ['11 x 14 in', '12 x 18 in', '16 x 20 in', '18 x 24 in'] }, step: 6,
-      details: ['Art print, ready for a standard frame', 'Frame not included']
-    },
-    {
-      id: 'open-print', no: '014', name: 'Open Water', cat: 'prints', type: 'print',
-      art: 'assets/art-open.jpg', wall: '#dccfc4', price: 24,
-      from: 'Code Sea', fromId: 'codesea',
-      blurb: 'A turtle, two schools of fish and something large and red, all passing each other at once.',
-      options: { Size: ['11 x 14 in', '12 x 18 in', '16 x 20 in', '18 x 24 in'] }, step: 6,
-      details: ['Art print, ready for a standard frame', 'Frame not included']
-    },
-    {
-      id: 'shark-print', no: '015', name: 'The Shark', cat: 'prints', type: 'print',
-      art: 'assets/art-school.jpg', wall: '#cdd3d6', price: 24,
-      from: 'Code Sea', fromId: 'codesea',
-      blurb: 'The shark over the reef, at a size that fits a frame instead of a whole wall.',
-      options: { Size: ['11 x 14 in', '12 x 18 in', '16 x 20 in', '18 x 24 in'] }, step: 6,
-      details: ['Art print, ready for a standard frame', 'Frame not included', 'Also comes as a tapestry, No. 006']
-    },
-    {
-      id: 'glow-print', no: '016', name: 'Night Bloom', cat: 'prints', type: 'print',
-      art: 'assets/art-glow.jpg', wall: '#c4cdc9', price: 24,
-      from: 'Code Sea', fromId: 'codesea',
-      blurb: 'The bioluminescent bloom on paper: the rarest scene in Code Sea, without the light behind it.',
-      options: { Size: ['11 x 14 in', '12 x 18 in', '16 x 20 in', '18 x 24 in'] }, step: 6,
-      details: ['Art print, ready for a standard frame', 'Frame not included', 'Also comes as a glow box, No. 010']
-    },
-    {
       /* The make-your-own print. `custom: true` changes its wording: it is made from a picture
          the customer turns into text with Coded Lens and sends in. */
-      id: 'custom-print', no: '017', name: 'Your Own Print', cat: 'prints', type: 'print', custom: true,
+      id: 'custom-print', no: '012', name: 'Your Own Print', cat: 'prints', type: 'print', custom: true,
       art: 'assets/art-custom.svg', wall: '#d9d2e0', price: 32,
       blurb: 'Your photo, rebuilt from letters and printed. You make the picture yourself in Coded Lens, the free Azoki tool that turns any photo or clip into text art, then send it in.',
       options: { Size: ['11 x 14 in', '12 x 18 in', '16 x 20 in', '18 x 24 in', '24 x 36 in'] }, step: 6,
