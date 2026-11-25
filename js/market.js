@@ -128,6 +128,9 @@
   }
 
   /* ---------- home ---------- */
+  function featured() {
+    $$('[data-cards]').forEach((el) => { el.innerHTML = el.dataset.cards.split(',').map(byId).filter(Boolean).map(card).join(''); });
+  }
   function fillMocks() {
     $$('[data-mock]').forEach((el) => { const p = byId(el.dataset.mock); if (p) el.innerHTML = mock(p, null, { off: el.dataset.off === '1' }); });
   }
@@ -142,7 +145,7 @@
   }
   function card(p) {
     const multi = (p.step || p.prices) && p.options.Size && p.options.Size.length > 1;
-    return '<article class="card reveal" data-cat="' + p.cat + '">' +
+    return '<article class="card reveal" data-cat="' + p.cat + '"' + (p.lens ? ' data-lens="1"' : '') + '>' +
       '<a class="card-pic" style="view-transition-name:pic-' + p.id + '" href="product.html?id=' + p.id + '" aria-label="' + esc(p.name) + '">' + mock(p) + '</a>' +
       '<div class="card-top"><span>No. ' + p.no + '</span><span>' + (p.custom ? 'made by you' : p.lens ? 'Coded Lens' : p.from ? 'from ' + esc(p.from) : 'Azoki original') + '</span></div>' +
       '<h3><a href="product.html?id=' + p.id + '">' + esc(p.name) + '</a></h3>' +
@@ -155,10 +158,10 @@
     const chips = $('#chips');
     const live = M.categories.filter((c) => !c.soon);
     chips.innerHTML = '<button aria-pressed="true" data-f="all">All (' + M.products.length + ')</button>' +
-      live.map((c) => '<button aria-pressed="false" data-f="' + c.id + '">' + esc(c.name) + '</button>').join('');
+      '<button aria-pressed="false" data-f="lens">Coded Lens</button>' + live.map((c) => '<button aria-pressed="false" data-f="' + c.id + '">' + esc(c.name) + '</button>').join('');
     const apply = (f) => {
       $$('button', chips).forEach((b) => b.setAttribute('aria-pressed', b.dataset.f === f ? 'true' : 'false'));
-      $$('.card', g).forEach((c) => { c.hidden = !(f === 'all' || c.dataset.cat === f); c.classList.add('in'); });
+      $$('.card', g).forEach((c) => { c.hidden = !(f === 'all' || c.dataset.cat === f || (f === 'lens' && c.dataset.lens)); c.classList.add('in'); });
     };
     chips.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) apply(b.dataset.f); });
     document.addEventListener('click', (e) => { const a = e.target.closest('[data-filter]'); if (a) apply(a.dataset.filter); });
@@ -320,7 +323,7 @@
     $$('.bar-track span').forEach((s) => { if (s.textContent === 'Small batches') s.textContent = 'Opening soon'; });
   }
 
-  pdp(); fillMocks(); cats(); grid(); lights(); stitch(); parallax(); quickAdd(); soon();
+  pdp(); fillMocks(); cats(); featured(); grid(); lights(); stitch(); parallax(); quickAdd(); soon();
   cartEvents(); paintCart(); siblings(); nav(); reveals(); signup();
   window.__market = { add, count, total, cart: () => cart, clear: () => { cart = []; save(); paintCart(); } };
 })();

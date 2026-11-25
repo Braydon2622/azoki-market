@@ -336,7 +336,12 @@ body:has(#glow.dark) .grid .mk.glow, body:has(#glow.dark) .stack .mk.glow { back
 .how a, .custom-soon a { text-decoration: underline; text-underline-offset: 3px; }
 .custom-soon { margin-top: 18px; font-family: var(--mono); font-size: 12.5px; color: var(--mute); max-width: 52ch; }
 details .how { margin-bottom: 18px; }.nav-links a { white-space: nowrap; }
-@media (max-width: 1180px) { .nav-links { gap: 16px; } .nav-links a[href="#studio"] { display: none; } }
+@media (max-width: 1320px) { .nav-links { gap: 16px; } .nav-links a[href="#studio"], .nav-links a[href$="#stitch"] { display: none; } }
 /* Coded Lens prints: 3:4 portrait or 4:3 landscape */
 .mk.print .frame.tall { aspect-ratio: 3 / 4; }
 .mk.print .frame.land { aspect-ratio: 4 / 3; width: 72%; }
+
+/* ---------- Coded Lens collection ---------- */
+.lens { border-top: 1.5px solid var(--fg); }
+.lens-note { max-width: 44ch; color: var(--mute); }
+.lens-more { margin-top: clamp(28px, 4vw, 56px); }
