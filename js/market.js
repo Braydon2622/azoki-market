@@ -15,6 +15,7 @@
 
   function defaults(p) { const o = {}; for (const k in p.options) o[k] = p.options[k][0]; return o; }
   function priceOf(p, o) {
+    if (p.prices && p.options.Size && o && o.Size) return p.prices[Math.max(0, p.options.Size.indexOf(o.Size))];
     let n = p.price;
     if (p.step && p.options.Size && o && o.Size) n += p.step * Math.max(0, p.options.Size.indexOf(o.Size));
     return n;
@@ -140,7 +141,7 @@
     }).join('');
   }
   function card(p) {
-    const multi = p.step && p.options.Size && p.options.Size.length > 1;
+    const multi = (p.step || p.prices) && p.options.Size && p.options.Size.length > 1;
     return '<article class="card reveal" data-cat="' + p.cat + '">' +
       '<a class="card-pic" style="view-transition-name:pic-' + p.id + '" href="product.html?id=' + p.id + '" aria-label="' + esc(p.name) + '">' + mock(p) + '</a>' +
       '<div class="card-top"><span>No. ' + p.no + '</span><span>' + (p.custom ? 'made by you' : p.lens ? 'Coded Lens' : p.from ? 'from ' + esc(p.from) : 'Azoki original') + '</span></div>' +
@@ -229,7 +230,7 @@
       '<div class="pd-buy"><div class="qty" role="group" aria-label="Quantity"' + (OPEN ? '' : ' hidden') + '><button id="qm" aria-label="One fewer">-</button><output id="qv">1</output><button id="qp" aria-label="One more">+</button></div>' +
       '<button class="btn red grow" id="pdAdd">' + (OPEN ? 'Add to cart' : 'Add to shortlist') + ' <span id="pdAddPrice"></span></button></div>' +
       (OPEN ? '' : '<p class="pd-soon">The shop is not open yet. Shortlist this and leave your email, and you will hear the day it is.</p>') +
-      '<details open><summary>Details</summary><ul>' + p.details.concat(OPEN ? [] : ['Sizes, materials and prices are still being settled']).map((d) => '<li>' + esc(d) + '</li>').join('') + '</ul></details>' +
+      '<details open><summary>Details</summary><ul>' + p.details.concat(OPEN || p.prices ? [] : ['Sizes, materials and prices are still being settled']).map((d) => '<li>' + esc(d) + '</li>').join('') + '</ul></details>' +
       (p.custom ? '<details open><summary>How it works</summary><ol class="how">' +
         '<li>Open <a href="' + M.codedLens + '" target="_blank" rel="noopener">Coded Lens</a> and drop in a photo or a clip. It runs in your browser, so the picture stays on your device.</li>' +
         '<li>Pick a look and tune it until you like it.</li>' +

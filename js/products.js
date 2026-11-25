@@ -1,7 +1,9 @@
 /* The Azoki Market catalogue. Edit this file to change what the shop sells.
 
    PLACEHOLDERS TO REPLACE BEFORE GOING LIVE
-   - Every price, size list and "details" line below is a stand-in. Put in the real ones.
+   - Prices, size lists and "details" lines are stand-ins, EXCEPT the Coded Lens prints (No. 012 to 021):
+     those were costed on 2026-11-24 from Printify (Sensaria matte posters, US shipping included in
+     the price). `prices` lists one price per size, in the same order as options.Size.
    - Product pictures are drawn by the site from the artwork in assets/ (a frame, a hanging
      cloth, a light box, a sweatshirt). Swap in real photos by setting `photo: 'assets/your.jpg'`
      on a product: when it is set, the photo is shown instead of the drawn mock-up.
@@ -72,75 +74,75 @@ window.MARKET = {
     },
     {
       id: 'starry-print', no: '012', name: "Starry Night.exe", cat: 'prints', type: 'print', lens: true, land: true,
-      art: 'assets/cl-starry.jpg', zoom: 'assets/cl-starry-zoom.jpg', wall: '#c9cfd8', price: 29,
+      art: 'assets/cl-starry.jpg', zoom: 'assets/cl-starry-zoom.jpg', wall: '#c9cfd8', price: 34, prices: [34, 44, 69],
       blurb: "Van Gogh's night sky, rebuilt one character at a time. From across the room it is the painting. Up close it is all letters.",
-      options: { Size: ['12 x 16 in', '18 x 24 in'] }, step: 15,
-      details: ["Art print, ready for a standard frame","Frame not included","Every mark in the picture is a letter, number or symbol","After Van Gogh, 1889 (public domain)","Made with Coded Lens, in the Code Sea look"]
+      options: { Size: ['16 x 12 in', '24 x 18 in', '32 x 24 in'] },
+      details: ["Art print on museum-grade matte paper","Frame not included","Free shipping in the US","Every mark in the picture is a letter, number or symbol","After Van Gogh, 1889 (public domain)","Made with Coded Lens, in the Code Sea look"]
     },
     {
       id: 'scream-print', no: '013', name: "The Scream, Thermal", cat: 'prints', type: 'print', lens: true,
-      art: 'assets/cl-scream.jpg', zoom: 'assets/cl-scream-zoom.jpg', wall: '#ddd0c2', price: 29,
+      art: 'assets/cl-scream.jpg', zoom: 'assets/cl-scream-zoom.jpg', wall: '#ddd0c2', price: 34, prices: [34, 44, 69],
       blurb: "The Scream as a heat camera would see it, every swirl of the sky typed out in symbols.",
-      options: { Size: ['12 x 16 in', '18 x 24 in'] }, step: 15,
-      details: ["Art print, ready for a standard frame","Frame not included","Every mark in the picture is a letter, number or symbol","After Munch, 1893 (public domain)","Made with Coded Lens, in the Thermal look"]
+      options: { Size: ['12 x 16 in', '18 x 24 in', '24 x 32 in'] },
+      details: ["Art print on museum-grade matte paper","Frame not included","Free shipping in the US","Every mark in the picture is a letter, number or symbol","After Munch, 1893 (public domain)","Made with Coded Lens, in the Thermal look"]
     },
     {
       id: 'wave-print', no: '014', name: "The Great Wave, Blueprint", cat: 'prints', type: 'print', lens: true, land: true,
-      art: 'assets/cl-wave.jpg', zoom: 'assets/cl-wave-zoom.jpg', wall: '#d3d9df', price: 29,
+      art: 'assets/cl-wave.jpg', zoom: 'assets/cl-wave-zoom.jpg', wall: '#d3d9df', price: 34, prices: [34, 44, 69],
       blurb: "Hokusai's wave drawn like an engineering plan: white characters on blueprint blue.",
-      options: { Size: ['12 x 16 in', '18 x 24 in'] }, step: 15,
-      details: ["Art print, ready for a standard frame","Frame not included","Every mark in the picture is a letter, number or symbol","After Hokusai, about 1831 (public domain)","Made with Coded Lens, in the Blueprint look"]
+      options: { Size: ['16 x 12 in', '24 x 18 in', '32 x 24 in'] },
+      details: ["Art print on museum-grade matte paper","Frame not included","Free shipping in the US","Every mark in the picture is a letter, number or symbol","After Hokusai, about 1831 (public domain)","Made with Coded Lens, in the Blueprint look"]
     },
     {
       id: 'shipwreck-print', no: '015', name: "The Shipwreck", cat: 'prints', type: 'print', lens: true, land: true,
-      art: 'assets/cl-shipwreck.jpg', zoom: 'assets/cl-shipwreck-zoom.jpg', wall: '#d9cdc4', price: 29,
+      art: 'assets/cl-shipwreck.jpg', zoom: 'assets/cl-shipwreck-zoom.jpg', wall: '#d9cdc4', price: 34, prices: [34, 44, 69],
       blurb: "Turner's storm in thermal colours. The sea is hot, the sky is cold, and all of it is text.",
-      options: { Size: ['12 x 16 in', '18 x 24 in'] }, step: 15,
-      details: ["Art print, ready for a standard frame","Frame not included","Every mark in the picture is a letter, number or symbol","After Turner, early 1800s (public domain)","Made with Coded Lens, in the Thermal look"]
+      options: { Size: ['16 x 12 in', '24 x 18 in', '32 x 24 in'] },
+      details: ["Art print on museum-grade matte paper","Frame not included","Free shipping in the US","Every mark in the picture is a letter, number or symbol","After Turner, early 1800s (public domain)","Made with Coded Lens, in the Thermal look"]
     },
     {
       id: 'hat-print', no: '016', name: "Woman with a Hat, Vapor", cat: 'prints', type: 'print', lens: true,
-      art: 'assets/cl-hat.jpg', zoom: 'assets/cl-hat-zoom.jpg', wall: '#dccfe0', price: 29,
+      art: 'assets/cl-hat.jpg', zoom: 'assets/cl-hat-zoom.jpg', wall: '#dccfe0', price: 34, prices: [34, 44, 69],
       blurb: "Matisse's loudest portrait in pinks and teals, spelled out in characters.",
-      options: { Size: ['12 x 16 in', '18 x 24 in'] }, step: 15,
-      details: ["Art print, ready for a standard frame","Frame not included","Every mark in the picture is a letter, number or symbol","After Matisse, 1905 (public domain)","Made with Coded Lens, in the Vaporwave look"]
+      options: { Size: ['12 x 16 in', '18 x 24 in', '24 x 32 in'] },
+      details: ["Art print on museum-grade matte paper","Frame not included","Free shipping in the US","Every mark in the picture is a letter, number or symbol","After Matisse, 1905 (public domain)","Made with Coded Lens, in the Vaporwave look"]
     },
     {
       id: 'udnie-print', no: '017', name: "Udnie", cat: 'prints', type: 'print', lens: true,
-      art: 'assets/cl-udnie.jpg', zoom: 'assets/cl-udnie-zoom.jpg', wall: '#cdd6d4', price: 29,
+      art: 'assets/cl-udnie.jpg', zoom: 'assets/cl-udnie-zoom.jpg', wall: '#cdd6d4', price: 34, prices: [34, 44, 69],
       blurb: "Picabia's abstract dance, broken into planes of glowing letters.",
-      options: { Size: ['12 x 16 in', '18 x 24 in'] }, step: 15,
-      details: ["Art print, ready for a standard frame","Frame not included","Every mark in the picture is a letter, number or symbol","After Picabia, 1913 (public domain)","Made with Coded Lens, in the Code Sea look"]
+      options: { Size: ['12 x 16 in', '18 x 24 in', '24 x 32 in'] },
+      details: ["Art print on museum-grade matte paper","Frame not included","Free shipping in the US","Every mark in the picture is a letter, number or symbol","After Picabia, 1913 (public domain)","Made with Coded Lens, in the Code Sea look"]
     },
     {
       id: 'launch-print', no: '018', name: "Launch Day", cat: 'prints', type: 'print', lens: true,
-      art: 'assets/cl-launch.jpg', zoom: 'assets/cl-launch-zoom.jpg', wall: '#d6cfc6', price: 29,
+      art: 'assets/cl-launch.jpg', zoom: 'assets/cl-launch-zoom.jpg', wall: '#d6cfc6', price: 34, prices: [34, 44, 69],
       blurb: "A rocket leaving the pad, the exhaust plume written in the hottest characters on the page.",
-      options: { Size: ['12 x 16 in', '18 x 24 in'] }, step: 15,
-      details: ["Art print, ready for a standard frame","Frame not included","Every mark in the picture is a letter, number or symbol","After SpaceX launch photo (public domain)","Made with Coded Lens, in the Thermal look"]
+      options: { Size: ['12 x 16 in', '18 x 24 in', '24 x 32 in'] },
+      details: ["Art print on museum-grade matte paper","Frame not included","Free shipping in the US","Every mark in the picture is a letter, number or symbol","After SpaceX launch photo (public domain)","Made with Coded Lens, in the Thermal look"]
     },
     {
       id: 'deepfield-print', no: '019', name: "Deep Field", cat: 'prints', type: 'print', lens: true, land: true,
-      art: 'assets/cl-deepfield.jpg', zoom: 'assets/cl-deepfield-zoom.jpg', wall: '#c8ccd9', price: 29,
+      art: 'assets/cl-deepfield.jpg', zoom: 'assets/cl-deepfield-zoom.jpg', wall: '#c8ccd9', price: 34, prices: [34, 44, 69],
       blurb: "Thousands of galaxies from the Hubble Deep Field, each one a few characters of light.",
-      options: { Size: ['12 x 16 in', '18 x 24 in'] }, step: 15,
-      details: ["Art print, ready for a standard frame","Frame not included","Every mark in the picture is a letter, number or symbol","After Hubble, NASA (public domain)","Made with Coded Lens, in the Code Sea look"]
+      options: { Size: ['16 x 12 in', '24 x 18 in', '32 x 24 in'] },
+      details: ["Art print on museum-grade matte paper","Frame not included","Free shipping in the US","Every mark in the picture is a letter, number or symbol","After Hubble, NASA (public domain)","Made with Coded Lens, in the Code Sea look"]
     },
     {
       id: 'jelly-print', no: '020', name: "Code Sea Jellyfish", cat: 'prints', type: 'print', lens: true,
-      art: 'assets/cl-jelly.jpg', zoom: 'assets/cl-jelly-zoom.jpg', wall: '#c5cfd6', price: 29,
+      art: 'assets/cl-jelly.jpg', zoom: 'assets/cl-jelly-zoom.jpg', wall: '#c5cfd6', price: 34, prices: [34, 44, 69],
       blurb: "Jellyfish rising through dark water, drawn entirely in text. Original Azoki art from the world of Code Sea.",
-      options: { Size: ['12 x 16 in', '18 x 24 in'] }, step: 15,
-      details: ["Art print, ready for a standard frame","Frame not included","Every mark in the picture is a letter, number or symbol","Original Azoki art","Made with Coded Lens, in the Sea Night look"]
+      options: { Size: ['12 x 16 in', '18 x 24 in', '24 x 32 in'] },
+      details: ["Art print on museum-grade matte paper","Frame not included","Free shipping in the US","Every mark in the picture is a letter, number or symbol","Original Azoki art","Made with Coded Lens, in the Sea Night look"]
     },
     {
       /* The make-your-own print. `custom: true` changes its wording: it is made from a picture
          the customer turns into text with Coded Lens and sends in. */
       id: 'custom-print', no: '021', name: 'Your Own Print', cat: 'prints', type: 'print', custom: true,
-      art: 'assets/cl-pet.jpg', zoom: 'assets/cl-pet-zoom.jpg', lens: true, wall: '#d9d2e0', price: 32,
+      art: 'assets/cl-pet.jpg', zoom: 'assets/cl-pet-zoom.jpg', lens: true, wall: '#d9d2e0', price: 45, prices: [45, 59, 79],
       blurb: 'Your photo, or your pet, rebuilt from letters and printed. You make the picture yourself in Coded Lens, the free Azoki tool that turns any photo or clip into text art, then send it in.',
-      options: { Size: ['11 x 14 in', '12 x 18 in', '16 x 20 in', '18 x 24 in', '24 x 36 in'] }, step: 6,
-      details: ['Made from your own picture', 'Art print, ready for a standard frame', 'Frame not included']
+      options: { Size: ['12 x 16 in', '18 x 24 in', '24 x 32 in'] },
+      details: ['Made from your own picture', 'Art print on museum-grade matte paper', 'Frame not included', 'Free shipping in the US']
     },
     {
       id: 'shark-tapestry', no: '006', name: 'The Shark', cat: 'tapestries', type: 'tapestry',
