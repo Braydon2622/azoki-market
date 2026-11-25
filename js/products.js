@@ -7,19 +7,24 @@
    - Product pictures are drawn by the site from the artwork in assets/ (a frame, a hanging
      cloth, a light box, a sweatshirt). Swap in real photos by setting `photo: 'assets/your.jpg'`
      on a product: when it is set, the photo is shown instead of the drawn mock-up.
-   - checkoutUrl is empty, so the cart's checkout button only explains that checkout is not
-     connected. Set it (or a per-product `buyUrl`) once a payment provider is chosen.
+   - Checkout is built for Shopify. Set `shopify` to the store's address (for example
+     'azoki-market.myshopify.com') and give each product that is for sale a `variants` list:
+     one Shopify variant id per choice, keyed by the option values joined with ' / ', e.g.
+       variants: { '12 x 16 in': '45000000000001', '18 x 24 in': '45000000000002' }
+     The cart's checkout button then sends the whole cart to Shopify's checkout.
+     A product with no `variants` says "coming soon" once the shop is open.
 
    OPENING THE SHOP
    - `open: false` means nothing is for sale yet: prices are hidden everywhere, "add to cart"
      becomes "shortlist", and the shortlist is sent along with the email sign-up.
-     Change it to `open: true` once the prices are real and checkoutUrl is set.
+     Change it to `open: true` once `shopify` is set and at least one product has `variants`.
    - signupTo is where sign-ups are emailed (through formsubmit.co).
 */
 window.MARKET = {
   open: false,
   signupTo: 'hello@azokistudios.com',
   currency: '$',
+  shopify: '',
   checkoutUrl: '',
   studios: 'https://azokistudios.com',
   codedLens: 'https://codedlens.com',

@@ -13,6 +13,12 @@
      shortlist that is sent along with the email sign-up. */
   const OPEN = M.open !== false;
 
+  /* Once the shop is open, a product is for sale only if it has Shopify variant ids
+     (MARKET.shopify plus the product's `variants`). The rest say "coming soon". */
+  const vkey = (o) => Object.values(o).join(' / ');
+  const variantOf = (p, o) => (p.variants && p.variants[vkey(o)]) || '';
+  const sells = (p) => OPEN && !!(M.shopify && p.variants);
+
   function defaults(p) { const o = {}; for (const k in p.options) o[k] = p.options[k][0]; return o; }
   function priceOf(p, o) {
     if (p.prices && p.options.Size && o && o.Size) return p.prices[Math.max(0, p.options.Size.indexOf(o.Size))];
@@ -65,7 +71,7 @@
   /* ---------- cart ---------- */
   const KEY = 'azoki-cart';
   let cart = [];
-  try { cart = JSON.parse(localStorage.getItem(KEY) || '[]').filter((l) => byId(l.id)); } catch (e) { cart = []; }
+  try { cart = JSON.parse(localStorage.getItem(KEY) || '[]').filter((l) => byId(l.id) && (!OPEN || sells(byId(l.id)))); } catch (e) { cart = []; }
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(cart)); } catch (e) {} };
   const sig = (id, o) => id + '|' + Object.keys(o).sort().map((k) => k + ':' + o[k]).join('|');
   const count = () => cart.reduce((n, l) => n + l.qty, 0);
@@ -73,6 +79,7 @@
 
   function add(id, opts, qty) {
     const p = byId(id); opts = Object.assign(defaults(p), opts || {});
+    if (OPEN && !sells(p)) { goNews(); return; }
     const s = sig(id, opts), line = cart.find((l) => sig(l.id, l.opts) === s);
     if (line) { if (OPEN) line.qty += qty || 1; } else cart.push({ id, opts, qty: OPEN ? qty || 1 : 1 });
     save(); paintCart(); openCart();
@@ -104,6 +111,17 @@
   /* what gets sent with a sign-up while the shop is closed */
   const shortlist = () => cart.map((l) => byId(l.id).name + ' (' + Object.values(l.opts).join(', ') + ')').join('; ');
   function openCart() { const d = $('#cart'); if (d && !d.open) d.showModal(); }
+  function goNews() {
+    const d = $('#cart'), news = $('#news'); if (d && d.open) d.close();
+    if (!news) { location.href = 'index.html#news'; return; }
+    news.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    const em = $('input[type=email]', news); if (em) em.focus({ preventScroll: true });
+  }
+  /* Hands the whole cart to Shopify's checkout: /cart/<variant id>:<quantity>,... */
+  function checkoutLink() {
+    const ids = cart.map((l) => { const v = variantOf(byId(l.id), l.opts); return v ? v + ':' + l.qty : ''; });
+    return M.shopify && ids.length && ids.every(Boolean) ? 'https://' + M.shopify + '/cart/' + ids.join(',') : '';
+  }
   function cartEvents() {
     const d = $('#cart'); if (!d) return;
     $$('[data-open-cart]').forEach((b) => b.addEventListener('click', openCart));
@@ -114,13 +132,8 @@
       if (q) { const l = cart[+q.dataset.i]; l.qty += +q.dataset.q; if (l.qty < 1) cart.splice(+q.dataset.i, 1); save(); paintCart(); }
       if (rm) { cart.splice(+rm.dataset.rm, 1); save(); paintCart(); }
       if (t.closest('#checkout')) {
-        if (!OPEN) {
-          d.close();
-          const news = $('#news');
-          if (!news) { location.href = 'index.html#news'; return; }
-          news.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-          const em = $('input[type=email]', news); if (em) em.focus({ preventScroll: true });
-        }
+        if (!OPEN) goNews();
+        else if (checkoutLink()) location.href = checkoutLink();
         else if (M.checkoutUrl) location.href = M.checkoutUrl;
         else $('#cartNote').textContent = 'Checkout is not connected yet. Nothing has been charged.';
       }
@@ -149,8 +162,8 @@
       '<a class="card-pic" style="view-transition-name:pic-' + p.id + '" href="product.html?id=' + p.id + '" aria-label="' + esc(p.name) + '">' + mock(p) + '</a>' +
       '<div class="card-top"><span>No. ' + p.no + '</span><span>' + (p.custom ? 'made by you' : p.lens ? 'Coded Lens' : p.from ? 'from ' + esc(p.from) : 'Azoki original') + '</span></div>' +
       '<h3><a href="product.html?id=' + p.id + '">' + esc(p.name) + '</a></h3>' +
-      '<div class="card-bot"><span>' + KIND[p.type] + '</span><span class="price">' + (OPEN ? (multi ? 'from ' : '') + money(p.price) : 'opening soon') + '</span></div>' +
-      '<button class="quick" data-add="' + p.id + '">' + (OPEN ? '[ + add to cart ]' : '[ + shortlist ]') + '</button></article>';
+      '<div class="card-bot"><span>' + KIND[p.type] + '</span><span class="price">' + (sells(p) ? (multi ? 'from ' : '') + money(p.price) : OPEN ? 'coming soon' : 'opening soon') + '</span></div>' +
+      '<button class="quick" data-add="' + p.id + '">' + (sells(p) ? '[ + add to cart ]' : OPEN ? '[ tell me when ]' : '[ + shortlist ]') + '</button></article>';
   }
   function grid() {
     const g = $('#grid'); if (!g) return;
@@ -214,7 +227,7 @@
   function pdp() {
     const root = $('#pdp'); if (!root) return;
     const p = byId(new URLSearchParams(location.search).get('id')) || M.products[0];
-    const o = defaults(p); let qty = 1, off = false;
+    const o = defaults(p), S = sells(p); let qty = 1, off = false;
     document.title = p.name + ' | Azoki Market';
     const head = (sel, make, attr, val) => { let e = $(sel); if (!e) { e = document.createElement(make[0]); e.setAttribute(make[1], make[2]); document.head.appendChild(e); } e.setAttribute(attr, val); };
     const url = 'https://azokimarket.com/product.html?id=' + p.id;
@@ -238,10 +251,10 @@
       '<h1>' + esc(p.name) + '</h1>' +
       '<p class="pd-price"><span id="pdPrice"></span> <small>' + KIND[p.type] + '</small></p>' +
       '<p class="pd-blurb">' + esc(p.blurb) + '</p>' + optHtml +
-      '<div class="pd-buy"><div class="qty" role="group" aria-label="Quantity"' + (OPEN ? '' : ' hidden') + '><button id="qm" aria-label="One fewer">-</button><output id="qv">1</output><button id="qp" aria-label="One more">+</button></div>' +
-      '<button class="btn red grow" id="pdAdd">' + (OPEN ? 'Add to cart' : 'Add to shortlist') + ' <span id="pdAddPrice"></span></button></div>' +
-      (OPEN ? '' : '<p class="pd-soon">The shop is not open yet. Shortlist this and leave your email, and you will hear the day it is.</p>') +
-      '<details open><summary>Details</summary><ul>' + p.details.concat(OPEN || p.prices ? [] : ['Sizes, materials and prices are still being settled']).map((d) => '<li>' + esc(d) + '</li>').join('') + '</ul></details>' +
+      '<div class="pd-buy"><div class="qty" role="group" aria-label="Quantity"' + (S ? '' : ' hidden') + '><button id="qm" aria-label="One fewer">-</button><output id="qv">1</output><button id="qp" aria-label="One more">+</button></div>' +
+      '<button class="btn red grow" id="pdAdd">' + (S ? 'Add to cart' : OPEN ? 'Tell me when it is here' : 'Add to shortlist') + ' <span id="pdAddPrice"></span></button></div>' +
+      (S ? '' : OPEN ? '<p class="pd-soon">This one is not for sale yet. Leave your email and you will hear when it is.</p>' : '<p class="pd-soon">The shop is not open yet. Shortlist this and leave your email, and you will hear the day it is.</p>') +
+      '<details open><summary>Details</summary><ul>' + p.details.concat(S || p.prices ? [] : ['Sizes, materials and prices are still being settled']).map((d) => '<li>' + esc(d) + '</li>').join('') + '</ul></details>' +
       (p.custom ? '<details open><summary>How it works</summary><ol class="how">' +
         '<li>Open <a href="' + M.codedLens + '" target="_blank" rel="noopener">Coded Lens</a> and drop in a photo or a clip. It runs in your browser, so the picture stays on your device.</li>' +
         '<li>Pick a look and tune it until you like it.</li>' +
@@ -251,14 +264,14 @@
       (p.from ? '<details><summary>Where it comes from</summary><p>This picture is a moment from <b>' + esc(p.from) + '</b>, a live wallpaper by Azoki Studios. On a desktop it never stops moving. <a data-sibling="studios" data-path="' + p.fromId + '/" href="' + M.studios + '/' + p.fromId + '/">See it alive -&gt;</a></p></details>' : '') +
       '</div></div>' +
       (others.length ? '<section class="more"><p class="label">[ goes well with ]</p><div class="grid">' + others.map(card).join('') + '</div></section>' : '') +
-      '<div class="buybar"><div><b>' + esc(p.name) + '</b><span id="bbPrice"></span></div><button class="btn red" id="bbAdd">' + (OPEN ? 'Add to cart' : 'Shortlist') + '</button></div>';
+      '<div class="buybar"><div><b>' + esc(p.name) + '</b><span id="bbPrice"></span></div><button class="btn red" id="bbAdd">' + (S ? 'Add to cart' : OPEN ? 'Tell me' : 'Shortlist') + '</button></div>';
 
     let view = 'mock';
     const paint = () => {
       const pic = $('#pdPic');
       pic.innerHTML = view === 'zoom' ? '<div class="mk flat"><img src="' + p.zoom + '" alt="' + esc(p.name) + ', close up showing the letters"></div>' : view === 'art' ? '<div class="mk flat"><img src="' + p.art + '" alt="' + esc(p.name) + ', the artwork"></div>' : mock(p, o, { off: !off });
-      const pr = OPEN ? money(priceOf(p, o)) : 'Opening soon';
-      $('#pdPrice').textContent = pr; $('#pdAddPrice').textContent = OPEN ? '· ' + money(priceOf(p, o) * qty) : ''; $('#bbPrice').textContent = pr;
+      const pr = S ? money(priceOf(p, o)) : OPEN ? 'Coming soon' : 'Opening soon';
+      $('#pdPrice').textContent = pr; $('#pdAddPrice').textContent = S ?'· ' + money(priceOf(p, o) * qty) : ''; $('#bbPrice').textContent = pr;
       $('#qv').textContent = qty;
       $$('[data-cur]', root).forEach((b) => { b.textContent = o[b.dataset.cur]; });
       root.classList.toggle('room-dark', off && view === 'mock');
@@ -315,7 +328,11 @@
   }
   /* the words that change while the shop is closed */
   function soon() {
-    if (OPEN) return;
+    if (OPEN) {
+      /* open, but some things are not for sale yet: their buttons on the home page say so */
+      $$('[data-add]').forEach((b) => { const p = byId(b.dataset.add); if (p && !sells(p) && !b.closest('.card')) b.textContent = 'Tell me when it is here'; });
+      return;
+    }
     document.body.classList.add('is-soon');
     const label = 'Shortlist (<span data-cart-count>0</span>)';
     $$('.cartbtn, #cart header h2').forEach((b) => { b.innerHTML = label; });
@@ -333,5 +350,5 @@
 
   pdp(); fillMocks(); cats(); featured(); grid(); lights(); stitch(); parallax(); quickAdd(); soon();
   cartEvents(); paintCart(); siblings(); nav(); reveals(); signup();
-  window.__market = { add, count, total, cart: () => cart, clear: () => { cart = []; save(); paintCart(); } };
+  window.__market = { add, count, total, checkoutLink,cart: () => cart, clear: () => { cart = []; save(); paintCart(); } };
 })();
