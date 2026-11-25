@@ -55,7 +55,7 @@
     const alt = esc(p.name + ', ' + KIND[p.type].toLowerCase());
     if (p.photo) return '<div class="mk photo"><img src="' + p.photo + '" alt="' + alt + '" loading="lazy"></div>';
     const img = '<img src="' + p.art + '" alt="' + alt + '" loading="lazy">';
-    if (p.type === 'print') return '<div class="mk print" style="--wall:' + p.wall + ';--frame:' + (p.frame || '#15130f') + '"><div class="frame">' + img + '</div></div>';
+    if (p.type === 'print') return '<div class="mk print" style="--wall:' + p.wall + ';--frame:' + (p.frame || '#15130f') + '"><div class="frame' + (p.land ? ' land' : p.lens ? ' tall' : '') + '">' + img + '</div></div>';
     if (p.type === 'tapestry') return '<div class="mk tap" style="--wall:' + p.wall + '"><div class="cloth' + (p.wide ? ' wide' : '') + '">' + img + '</div></div>';
     if (p.type === 'glow') return '<div class="mk glow' + (flags.off ? '' : ' lit') + '" style="--wall:' + p.wall + ';--tint:' + p.tint + '"><div class="box">' + img + '</div></div>';
     return '<div class="mk crew" style="--wall:' + (o.Colour === 'Black' ? '#cfc6b3' : p.wall) + '">' + crewSVG(o.City, o.Colour) + '</div>';
@@ -143,7 +143,7 @@
     const multi = p.step && p.options.Size && p.options.Size.length > 1;
     return '<article class="card reveal" data-cat="' + p.cat + '">' +
       '<a class="card-pic" style="view-transition-name:pic-' + p.id + '" href="product.html?id=' + p.id + '" aria-label="' + esc(p.name) + '">' + mock(p) + '</a>' +
-      '<div class="card-top"><span>No. ' + p.no + '</span><span>' + (p.custom ? 'made by you' : p.from ? 'from ' + esc(p.from) : 'Azoki original') + '</span></div>' +
+      '<div class="card-top"><span>No. ' + p.no + '</span><span>' + (p.custom ? 'made by you' : p.lens ? 'Coded Lens' : p.from ? 'from ' + esc(p.from) : 'Azoki original') + '</span></div>' +
       '<h3><a href="product.html?id=' + p.id + '">' + esc(p.name) + '</a></h3>' +
       '<div class="card-bot"><span>' + KIND[p.type] + '</span><span class="price">' + (OPEN ? (multi ? 'from ' : '') + money(p.price) : 'opening soon') + '</span></div>' +
       '<button class="quick" data-add="' + p.id + '">' + (OPEN ? '[ + add to cart ]' : '[ + shortlist ]') + '</button></article>';
@@ -220,7 +220,7 @@
     root.innerHTML =
       '<div class="pd"><div class="pd-stage"><div class="pd-pic" id="pdPic" style="view-transition-name:pic-' + p.id + '"></div>' +
       (p.type === 'glow' ? '<button class="lightsw" id="pdLight" role="switch" aria-checked="true">room lights: <b class="sw-state">on</b></button>' : '') +
-      (p.art ? '<div class="pd-thumbs"><button aria-pressed="true" data-v="mock">' + (p.type === 'tapestry' ? 'Hung' : p.type === 'glow' ? 'The box' : 'Framed') + '</button><button aria-pressed="false" data-v="art">The artwork</button></div>' : '') +
+      (p.art ? '<div class="pd-thumbs"><button aria-pressed="true" data-v="mock">' + (p.type === 'tapestry' ? 'Hung' : p.type === 'glow' ? 'The box' : 'Framed') + '</button><button aria-pressed="false" data-v="art">The artwork</button>' + (p.zoom ? '<button aria-pressed="false" data-v="zoom">Close up</button>' : '') + '</div>' : '') +
       '</div><div class="pd-info">' +
       '<p class="crumb"><a href="index.html#shop">Shop</a> / ' + esc(catOf(p).name) + ' / No. ' + p.no + '</p>' +
       '<h1>' + esc(p.name) + '</h1>' +
@@ -244,7 +244,7 @@
     let view = 'mock';
     const paint = () => {
       const pic = $('#pdPic');
-      pic.innerHTML = view === 'art' ? '<div class="mk flat"><img src="' + p.art + '" alt="' + esc(p.name) + ', the artwork"></div>' : mock(p, o, { off: !off });
+      pic.innerHTML = view === 'zoom' ? '<div class="mk flat"><img src="' + p.zoom + '" alt="' + esc(p.name) + ', close up showing the letters"></div>' : view === 'art' ? '<div class="mk flat"><img src="' + p.art + '" alt="' + esc(p.name) + ', the artwork"></div>' : mock(p, o, { off: !off });
       const pr = OPEN ? money(priceOf(p, o)) : 'Opening soon';
       $('#pdPrice').textContent = pr; $('#pdAddPrice').textContent = OPEN ? '· ' + money(priceOf(p, o) * qty) : ''; $('#bbPrice').textContent = pr;
       $('#qv').textContent = qty;
