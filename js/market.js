@@ -216,6 +216,14 @@
     const p = byId(new URLSearchParams(location.search).get('id')) || M.products[0];
     const o = defaults(p); let qty = 1, off = false;
     document.title = p.name + ' | Azoki Market';
+    const head = (sel, make, attr, val) => { let e = $(sel); if (!e) { e = document.createElement(make[0]); e.setAttribute(make[1], make[2]); document.head.appendChild(e); } e.setAttribute(attr, val); };
+    const url = 'https://azokimarket.com/product.html?id=' + p.id;
+    head('meta[name=description]', ['meta', 'name', 'description'], 'content', p.blurb);
+    head('link[rel=canonical]', ['link', 'rel', 'canonical'], 'href', url);
+    head('meta[property="og:title"]', ['meta', 'property', 'og:title'], 'content', p.name + ', from Azoki Market');
+    head('meta[property="og:description"]', ['meta', 'property', 'og:description'], 'content', p.blurb);
+    head('meta[property="og:url"]', ['meta', 'property', 'og:url'], 'content', url);
+    if (p.art) head('meta[property="og:image"]', ['meta', 'property', 'og:image'], 'content', 'https://azokimarket.com/' + p.art);
     const optHtml = Object.keys(p.options).map((k) =>
       '<fieldset class="opt"><legend>' + k + ' <b data-cur="' + k + '"></b></legend><div class="chips">' +
       p.options[k].map((v, i) => '<label><input type="radio" name="' + k + '" value="' + esc(v) + '"' + (i === 0 ? ' checked' : '') + '><span>' + esc(v) + '</span></label>').join('') +
