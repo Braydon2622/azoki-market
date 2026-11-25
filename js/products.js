@@ -33,30 +33,6 @@ window.MARKET = {
   ],
   products: [
     {
-      id: 'whale-print', no: '001', name: 'The Whale', cat: 'prints', type: 'print',
-      art: 'assets/art-whale.jpg', wall: '#d8cfbd', price: 24,
-      from: 'Code Sea', fromId: 'codesea',
-      blurb: 'A humpback made of letters, rising past the glass. Taken from Code Sea at the moment the whale fills the screen.',
-      options: { Size: ['11 x 14 in', '12 x 18 in', '16 x 20 in', '18 x 24 in'] }, step: 6,
-      details: ['Art print, ready for a standard frame', 'Frame not included', 'Every character in the picture is real text']
-    },
-    {
-      id: 'bloom-print', no: '002', name: 'Jelly Bloom', cat: 'prints', type: 'print',
-      art: 'assets/art-bloom.jpg', wall: '#c9cfd4', price: 24,
-      from: 'Code Sea', fromId: 'codesea',
-      blurb: 'Jellyfish of every size rising out of the deep, their bells spelled out in symbols.',
-      options: { Size: ['11 x 14 in', '12 x 18 in', '16 x 20 in', '18 x 24 in'] }, step: 6,
-      details: ['Art print, ready for a standard frame', 'Frame not included']
-    },
-    {
-      id: 'deep-print', no: '003', name: 'The Deep', cat: 'prints', type: 'print',
-      art: 'assets/art-deep.jpg', wall: '#bfb8c9', price: 24,
-      from: 'Code Sea', fromId: 'codesea',
-      blurb: 'The light fades and the plankton glows. The quiet scene, for a quiet wall.',
-      options: { Size: ['11 x 14 in', '12 x 18 in', '16 x 20 in', '18 x 24 in'] }, step: 6,
-      details: ['Art print, ready for a standard frame', 'Frame not included']
-    },
-    {
       id: 'sunset-print', no: '004', name: 'Hearthside, 18:36', cat: 'prints', type: 'print',
       art: 'assets/art-village-sunset.jpg', wall: '#e3cdb4', price: 24, frame: '#6b4a2e',
       from: 'Hearthside', fromId: 'hearthside',
